@@ -1,0 +1,57 @@
+{
+ "bench": {
+  "bench_verdict": "CERTIFIED(simulator)",
+  "certified": true,
+  "checks": [
+   "logs masked beyond last-4 (fixture file path)",
+   "masking + body hashing across sends, receipts, and both state files",
+   "send surface is *_sim only: denylist refused by direct call",
+   "gated sends: valid path + named refusals",
+   "place_call_sim requires a named human speaker",
+   "recording policy is T3: per-number token, every call",
+   "stub-HTTP log path == fixture-file path",
+   "SPEC 5.3 ACCEPTANCE: one revocation refuses two adapter surfaces",
+   "receipt chain valid; tamper detected",
+   "auth enforced",
+   "schema valid",
+   "network surface is the env-set local stub only",
+   "no secret leak",
+   "sane errors",
+   "process health",
+   "audit completeness",
+   "bench isolation"
+  ],
+  "not_tested": [
+   "Live Twilio account actions \u2014 the vendor's official MCP surfaces (docs discovery + Labs execution server) are the V1 wrap targets; V0 ships against Twilio-shaped fixtures + a local stub only, and the build-time probe of which vendor surface executes is a V1 step (spec 12).",
+   "Number provisioning and release \u2014 search only in V0; provisioning is T2 and release is T3 at V1 behind the owner account.",
+   "WhatsApp / RCS channel consent inheritance \u2014 spec 12 flags per-channel verification at build; no channel beyond voice/SMS is modeled in V0."
+  ],
+  "status": "CERTIFIED(simulator) \u2014 Eclipse Bazaar Test Bench 2026-10-25, 16/17 checks pass, 1 na (U1 auth: stdio process boundary), 0 fail. Run by W-003 (Verity), suites/trunk.py. Run 1 FAILED card retained in results/ \u2014 bench-suite self-defect (T4 absolute receipt count vs cumulative suite ledger), fixed and re-run clean as run 2; no product defect.",
+  "certified_scope": "simulator",
+  "scorecard_ref": "test-bench/results/eclipse-trunk-mcp-2026-10-25-2.json"
+ },
+ "category": "Voice & Telephony Adapters",
+ "created": "2026-10-25",
+ "description": "The governed Twilio adapter of the Eclipse voice & telephony family, in V0 fixture form. Twilio ships the pipes (official MCP surfaces included); Trunk is the layer above them: raw carrier operations are never exposed, only a classified subset \u2014 Twilio-shaped log reads with numbers masked beyond last-4, simulated SMS sends, simulated human calls (a named human speaker is required; there is no AI voice in this adapter), number inventory search, registration status, and recording policy. Every send is gated through Eclipse Voice Core: live consent check first, then the Agent Wallet-shaped mandate, then Number Registry sendability; the family receipt carries the consent_record_id and the mandate verdict. Trunk holds no consent copies \u2014 it evaluates against the shared Voice Core state at check time, so a revocation refuses Trunk's very next send. V0 reaches no carrier: fixtures + a local stub only, nothing sent, nothing provisioned.",
+ "icon": "icon-512.png",
+ "name": "Eclipse Trunk MCP",
+ "powered_by": "Cyan Eclipse Technologies",
+ "price_model": "Free local v0.1; family pricing TBD per spec",
+ "repo": null,
+ "slug": "eclipse-trunk-mcp",
+ "status": "In development \u2014 v0.1.0 V0 local build (Twilio fixture adapter: gated simulated sends + masked log reads; fixtures only; CERTIFIED(simulator) \u2014 Eclipse Bazaar Test Bench 2026-10-25)",
+ "tagline": "The governed Twilio adapter: every call and text under consent + mandate.",
+ "tools": [
+  "logs_read",
+  "send_sms_sim",
+  "place_call_sim",
+  "number_search",
+  "registration_status",
+  "recording_policy_get",
+  "recording_policy_set",
+  "receipt_list"
+ ],
+ "transport": "MCP over stdio (HTTP transport on roadmap)",
+ "vendor": "Cyan Eclipse Technologies",
+ "x402_ready": false
+}
